@@ -29,10 +29,10 @@
             android:name=".view.login.LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".view.login.LoginHomeActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+<!--        <activity-->
+<!--            android:name=".view.login.LoginHomeActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            tools:ignore="LockedOrientationActivity" />-->
         <activity
             android:name=".view.login.ForgotPasswordActivity"
             android:screenOrientation="portrait"

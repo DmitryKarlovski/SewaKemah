@@ -14,6 +14,8 @@ public class Preferences {
     static final String KEY_USER_PHONE = "phonenumber";
     static final String KEY_USER_PHOTO = "photo";
     static final String KEY_USER_STORE = "store";
+    static final String KEY_USER_STORE_PHONE = "storePhone";
+    static final String KEY_USER_STORE_ADDRESS = "storeAddress";
 
     private static SharedPreferences getSharedPreference(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -66,6 +68,7 @@ public class Preferences {
         return getSharedPreference(context).getString(KEY_USER_ADDRESS,"");
     }
 
+
     /** Setter KEY_USER_PHONE phonenumber */
     public static void setKeyUserPhone(Context context, String num){
         SharedPreferences.Editor editor = getSharedPreference(context).edit();
@@ -76,6 +79,7 @@ public class Preferences {
     public static String getKeyUserPhone(Context context) {
         return getSharedPreference(context).getString(KEY_USER_PHONE,"");
     }
+
 
     /** Setter KEY_USER_PHOTO photo */
     public static void setKeyUserPhoto(Context context, String photo){
@@ -145,6 +149,30 @@ public class Preferences {
     public static String getKeyUserStore(Context context) {
         return getSharedPreference(context).getString(KEY_USER_STORE,"");
     }
+
+    /** Setter KEY_USER_STORE_PHONE storePhone */
+    public static void setKeyUserStorePhone(Context context, String storeePhone){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(KEY_USER_STORE_PHONE, storeePhone);
+        editor.apply();
+    }
+    /** Getter KEY_USER_STORE_PHONE storePhone */
+    public static String getKeyUserStorePhone(Context context) {
+        return getSharedPreference(context).getString(KEY_USER_STORE_PHONE,"");
+    }
+
+    /** Setter KEY_USER_STORE_ADDRESS storeAddress */
+    public static void setKeyUserStoreAddress(Context context, String storeeAdd){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(KEY_USER_STORE_ADDRESS, storeeAdd);
+        editor.apply();
+    }
+    /** Getter KEY_USER_STORE_ADDRESS storeAddress */
+    public static String getKeyUserStoreAddress(Context context) {
+        return getSharedPreference(context).getString(KEY_USER_STORE_ADDRESS,"");
+    }
+
+
 
     /**Clear Logged In Data*/
     public static void clearLoggedInUser (Context context){

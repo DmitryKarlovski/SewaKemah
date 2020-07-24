@@ -128,29 +128,27 @@ class ProfileMainFragment : Fragment() {
 
         buttonCreateStore.setOnClickListener(){
             //bottomSheet = BottomSheetDialog(context)
-            bottomSheetCustom()
+            views = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
+            bottomSheetCustom(views!!)
         }
-
-
 
     }
 
-    private fun bottomSheetCustom() {
-        views = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
-        bottomSheet!!.setContentView(views!!)
+    private fun bottomSheetCustom(tampil :View?) {
+        bottomSheet!!.setContentView(tampil!!)
         bottomSheet!!.show()
 
-        views!!.imageView38.setImageResource(R.drawable.ic_close_black)
-        views!!.textView90.text = "Open My Own Store"
+        tampil!!.imageView38.setImageResource(R.drawable.ic_close_black)
+        tampil!!.textView90.text = "Open My Own Store"
 
         val layoutParams = LinearLayout.LayoutParams(48, 48)
-        views!!.imageView38.layoutParams = layoutParams
+        tampil!!.imageView38.layoutParams = layoutParams
 
-        views!!.imageView38.setOnClickListener {
+        tampil!!.imageView38.setOnClickListener {
             bottomSheet!!.dismiss()
         }
 
-        views!!.button40.setOnClickListener(){
+        tampil!!.button40.setOnClickListener(){
             var storeName: String? = ""
             var storePhone: String? = ""
             var storeAddress: String? = ""
@@ -223,6 +221,12 @@ class ProfileMainFragment : Fragment() {
 
     private fun saveStoreName(value: String) {
         Preferences.setKeyUserStore(context, value)
+    }
+    private fun saveStorePhone(value: String) {
+        Preferences.setKeyUserStorePhone(context, value)
+    }
+    private fun saveStoreAddress(value: String) {
+        Preferences.setKeyUserStoreAddress(context, value)
     }
 
 
