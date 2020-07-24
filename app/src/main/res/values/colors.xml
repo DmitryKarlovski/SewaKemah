@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0C5073</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="error">#F35654</color>
+    <color name="black_sewakemah">#33373C</color>
+    <color name="gray_text">#A6A8A9</color>
+    <color name="blue_sewakemah">#0C5073</color>
+    <color name="colorAccent">#0C5073</color>
+</resources>

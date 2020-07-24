@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_white_10dp_top_round"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:id="@+id/store_register_page">
+
+    <include
+        layout="@layout/toolbar_detail_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/textView190"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/avenir_bold"
+                android:text="Register Your Store"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:id="@+id/imageView58"
+                        android:layout_width="116dp"
+                        android:layout_height="116dp"
+                        app:srcCompat="@drawable/img_profile_disable" />
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/button39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_btn_white_32dp_round_stroke"
+                    android:fontFamily="@font/avenir_bold"
+                    android:text="Choose Photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black_sewakemah" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView191"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/avenir_bold"
+                android:text="Rent Store Name"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName36"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/avenir_regular"
+                android:hint="What's your renta; store name?"
+                android:inputType="textPersonName"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView192"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/avenir_bold"
+                android:text="Phone Number"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName37"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/avenir_regular"
+                android:hint="Input your store phone number"
+                android:inputType="phone"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView193"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/avenir_bold"
+                android:text="Address"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName38"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/avenir_regular"
+                android:hint="Input the address"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black_sewakemah"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/button40"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_blue_32dp_round"
+                android:fontFamily="@font/avenir_bold"
+                android:text="Open Store"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
