@@ -16,6 +16,7 @@ public class Preferences {
     static final String KEY_USER_STORE = "store";
     static final String KEY_USER_STORE_PHONE = "storePhone";
     static final String KEY_USER_STORE_ADDRESS = "storeAddress";
+    static final String KEY_USER_STORE_PHOTO = "storePhoto";
 
     private static SharedPreferences getSharedPreference(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -170,6 +171,17 @@ public class Preferences {
     /** Getter KEY_USER_STORE_ADDRESS storeAddress */
     public static String getKeyUserStoreAddress(Context context) {
         return getSharedPreference(context).getString(KEY_USER_STORE_ADDRESS,"");
+    }
+
+    /** Setter KEY_USER_STORE_PHOTO storePhoto */
+    public static void setKeyUserStorePhoto(Context context, String storeePhoto){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(KEY_USER_STORE_PHOTO, storeePhoto);
+        editor.apply();
+    }
+    /** Getter KEY_USER_STORE_PHOTO storePhoto */
+    public static String getKeyUserStorePhoto(Context context) {
+        return getSharedPreference(context).getString(KEY_USER_STORE_PHOTO,"");
     }
 
 

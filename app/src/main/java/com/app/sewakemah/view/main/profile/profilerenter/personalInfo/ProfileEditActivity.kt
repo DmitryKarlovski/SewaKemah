@@ -133,11 +133,11 @@ class ProfileEditActivity : AppCompatActivity() {
 
         //Address
         if(addres!!.isEmpty()){
-            editTextTextPersonName12.error = "Password is Empty"
+            editTextTextPersonName12.error = "Address is Empty"
             cancel4 = false
 //        }else if(addres!!.length < 8){
-//            editTextTextPersonName12.error = "Password must be more than 8"
-//            cancel = false
+//            editTextTextPersonName12.error = "Address must be more than 8"
+//            cancel4 = false
         }else{
             editTextTextPersonName12.error = null
             cancel4 = true

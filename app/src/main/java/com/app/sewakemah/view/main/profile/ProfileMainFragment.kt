@@ -129,13 +129,18 @@ class ProfileMainFragment : Fragment() {
         buttonCreateStore.setOnClickListener(){
             //bottomSheet = BottomSheetDialog(context)
             views = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
-            bottomSheetCustom(views!!)
+            views?.let{
+                bottomSheetCustom(it)
+            }
+
         }
 
     }
 
-    private fun bottomSheetCustom(tampil :View?) {
-        bottomSheet!!.setContentView(tampil!!)
+    private fun bottomSheetCustom(tampil :View? = null) {
+        if (tampil != null) {
+            bottomSheet!!.setContentView(tampil)
+        }
         bottomSheet!!.show()
 
         tampil!!.imageView38.setImageResource(R.drawable.ic_close_black)
@@ -200,11 +205,11 @@ class ProfileMainFragment : Fragment() {
         }
 
         if(address!!.isEmpty()){
-            editTextTextPersonName38.error = "Password is Empty"
+            editTextTextPersonName38.error = "Address is Empty"
             cancel3 = false
 //        }else if(address!!.length < 8){
-//            editTextTextPersonName38.error = "Password must be more than 8"
-//            cancel = false
+//            editTextTextPersonName38.error = "Address must be more than 8"
+//            cancel3 = false
         }else{
             editTextTextPersonName38.error = null
             cancel3 = true
