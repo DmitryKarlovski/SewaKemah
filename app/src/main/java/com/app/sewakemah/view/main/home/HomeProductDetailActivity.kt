@@ -1,5 +1,6 @@
 package com.app.sewakemah.view.main.home
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,22 +12,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.sewakemah.R
 import com.app.sewakemah.data.ProductEntity
 import com.app.sewakemah.data.listener.ProductListener
-import com.app.sewakemah.view.WelcomeScreenActivity
 import com.app.sewakemah.view.main.MainActivity
 import com.app.sewakemah.view.main.adapter.ProductAdapter
 import com.app.sewakemah.view.main.cart.CartMainFragment
 import com.app.sewakemah.view.main.liked.LikedMainFragment
-import com.app.sewakemah.view.register.RegisterTwoFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
@@ -35,6 +34,7 @@ import kotlinx.android.synthetic.main.bottomsheet_product_add.view.*
 import kotlinx.android.synthetic.main.popup_add_to_cart_success.*
 import kotlinx.android.synthetic.main.toolbar_detail_page.view.*
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -140,6 +140,16 @@ class HomeProductDetailActivity : AppCompatActivity() {
         val layoutParams = LinearLayout.LayoutParams(48, 48)
         view.imageView38.setLayoutParams(layoutParams)
 
+        val dateFormatter = SimpleDateFormat("dd - MM - yyyy", Locale.US)
+
+        view.editTextTextPersonName28.isFocusable = false
+        view.editTextTextPersonName28.isClickable = true
+        view.editTextTextPersonName28.isLongClickable = false
+
+        view.editTextTextPersonName29.isFocusable = false
+        view.editTextTextPersonName29.isClickable = true
+        view.editTextTextPersonName29.isLongClickable = false
+
         if(product == null){
             view.textView163.text = "lol"
             view.textView164.text = "lol"
@@ -153,17 +163,35 @@ class HomeProductDetailActivity : AppCompatActivity() {
             bottomSheet!!.dismiss()
         }
 
+        view.editTextTextPersonName28.setOnClickListener {
+            val newCalendar : Calendar = Calendar.getInstance()
+            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { datePicker: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                    val newDate : Calendar = Calendar.getInstance()
+                    newDate.set(year, monthOfYear, dayOfMonth)
+                    view.editTextTextPersonName28.setText(dateFormatter.format(newDate.getTime()))
+
+            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        }
+
+        view.editTextTextPersonName29.setOnClickListener {
+            val newCalendar : Calendar = Calendar.getInstance()
+            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { datePicker: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                val newDate : Calendar = Calendar.getInstance()
+                newDate.set(year, monthOfYear, dayOfMonth)
+                view.editTextTextPersonName29.setText(dateFormatter.format(newDate.getTime()))
+
+            },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        }
+
         view.button35.setOnClickListener {
             val myDialog = Dialog(this@HomeProductDetailActivity)
             myDialog.setContentView(R.layout.popup_add_to_cart_success)
 
-            try{
-                quant = editTextQuantity.text.toString()
-                startDate = editTextTextPersonName28.text.toString()
-                endDate = editTextTextPersonName29.text.toString()
-            }catch (error: IllegalStateException){
-                Toast.makeText(this,""+error+"", Toast.LENGTH_SHORT).show()
-            }
+            quant = view.editTextQuantity.text.toString()
+            startDate = view.editTextTextPersonName28.text.toString()
+            endDate = view.editTextTextPersonName29.text.toString()
 
             myDialog.button24.setOnClickListener {
                 myDialog.dismiss()
@@ -223,7 +251,7 @@ class HomeProductDetailActivity : AppCompatActivity() {
             val productImg = intent.getStringExtra("product_img")
             val productName = intent.getStringExtra("product_name")
 //        imageView47.setImageResource(productImg)
-        textView117.text = productName
+//        textView117.text = productName
         }
     }
 }
