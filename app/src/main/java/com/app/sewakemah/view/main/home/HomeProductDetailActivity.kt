@@ -65,14 +65,28 @@ class HomeProductDetailActivity : AppCompatActivity() {
         
         if(likeIcon.isChecked){
             Log.d("Like", "Bacot")
-            val intent = Intent(this, LikedMainFragment::class.java)
+//            val intent = Intent(this, LikedMainFragment::class.java)
+//
+//            intent.putExtra("productName", textView117.text as String)
+//            intent.putExtra("productDesc", textView119.text as String)
+//            intent.putExtra("productAddr", textView121.text as String)
+//            intent.putExtra("productImg", product?.productImg)
+//            intent.putExtra("productPrice", product?.productPrice)
+//            intent.putExtra("productType", textView122.text as String)
+//            intent.putExtra("productStore", textView122.text as String)
 
-            intent.putExtra("productName", textView117.text as String)
-            intent.putExtra("productDesc", textView119.text as String)
-            intent.putExtra("productAddr", textView121.text as String)
-            intent.putExtra("productImg", product?.productImg)
-            intent.putExtra("productPrice", product?.productPrice)
-            intent.putExtra("productType", textView122.text as String)
+            val bundle = Bundle()
+            bundle.putString("productName", textView117.text as String)
+            bundle.putString("productDesc", textView119.text as String)
+            bundle.putString("productAddr", textView121.text as String)
+            bundle.putString("productType", textView122.text as String)
+            bundle.putString("productStore", textView122.text as String)
+            bundle.putInt("productImg", product?.productImg)
+            bundle.putInt("productPrice", product?.productPrice)
+
+            // set Fragmentclass Arguments
+            val fragobj = CartMainFragment()
+            fragobj.arguments = bundle
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             startActivity(intent)

@@ -6,7 +6,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.app.sewakemah.R
-import com.app.sewakemah.view.WelcomeScreenActivity
 import com.app.sewakemah.view.main.cart.CartMainFragment
 import com.app.sewakemah.view.main.home.HomeMainFragment
 import com.app.sewakemah.view.main.liked.LikedMainFragment
@@ -63,5 +62,16 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }

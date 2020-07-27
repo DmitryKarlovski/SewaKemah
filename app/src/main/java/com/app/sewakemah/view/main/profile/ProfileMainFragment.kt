@@ -1,24 +1,31 @@
 package com.app.sewakemah.view.main.profile
 
+import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.app.sewakemah.R
 import com.app.sewakemah.data.Preferences
 import com.app.sewakemah.view.WelcomeScreenActivity
-import com.app.sewakemah.view.main.profile.personalInfo.ProfileEditActivity
 import com.app.sewakemah.view.main.profile.personalInfo.ProfilePersonalActivity
 import com.app.sewakemah.view.main.profile.profilerenter.paymentmethod.ProfilePaymentMethodActivity
 import com.app.sewakemah.view.main.profile.profilerenter.profilestep.ProfileStepActivity
@@ -29,11 +36,11 @@ import com.app.sewakemah.view.main.profile.profilestore.deposit.StoreDepositActi
 import com.app.sewakemah.view.main.profile.profilestore.detail.StoreDetailActivity
 import com.app.sewakemah.view.main.profile.profilestore.stuff.StoreStuffActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_profile_edit.*
 import kotlinx.android.synthetic.main.bottomsheet_store_register.*
 import kotlinx.android.synthetic.main.bottomsheet_store_register.view.*
 import kotlinx.android.synthetic.main.fragment_main_profile.*
 import kotlinx.android.synthetic.main.toolbar_detail_page.view.*
+import java.io.ByteArrayOutputStream
 
 class ProfileMainFragment : Fragment() {
     private var bottomSheet: BottomSheetDialog? = null
@@ -64,12 +71,18 @@ class ProfileMainFragment : Fragment() {
 
         var photo = Preferences.getKeyUserPhoto(context)
         var userName = Preferences.getLoggedInUser(context)
+        var storeName = Preferences.getKeyUserStore(context)
+        var storePhoto = Preferences.getKeyUserStorePhoto(context)
 
         if(photo.isNotEmpty()){
             imageView17.setImageBitmap(decodeBase64(photo))
         }
+        if(storePhoto.isNotEmpty()){
+            imageView31.setImageBitmap(decodeBase64(storePhoto))
+        }
 
         textView45.text = userName
+        textView76.text = storeName
 
     }
 
@@ -150,52 +163,58 @@ class ProfileMainFragment : Fragment() {
             bottomSheet!!.dismiss()
         }
 
+        view.button39.setOnClickListener(){
+            //check runtime permission
+            permissionPhoto()
+        }
+
         view.button40.setOnClickListener {
-            storeName = editTextTextPersonName36?.text.toString()
-            storePhone = editTextTextPersonName37?.text.toString()
-            storeAddress = editTextTextPersonName38?.text.toString()
-            editTextTextPersonName36?.error = null
-            editTextTextPersonName37?.error = null
-            editTextTextPersonName38?.error = null
+            //Log.d("Like", "Bacot")
+            storeName = view.editTextTextPersonName36?.text.toString()
+            storePhone = view.editTextTextPersonName37?.text.toString()
+            storeAddress = view.editTextTextPersonName38?.text.toString()
+            view.editTextTextPersonName36?.error = null
+            view.editTextTextPersonName37?.error = null
+            view.editTextTextPersonName38?.error = null
 
             var cancel1 = false
             var cancel2 = false
             var cancel3 = false
 
             if(storeName!!.isEmpty()){
-                editTextTextPersonName36?.error = "Username is Empty"
+                view.editTextTextPersonName36?.error = "Username is Empty"
                 cancel1 = false
             }else if(storeName!!.length < 8){
-                editTextTextPersonName36?.error = "Username must be more than 8"
+                view.editTextTextPersonName36?.error = "Username must be more than 8"
                 cancel1 = false
             }else{
-                editTextTextPersonName36?.error = null
+                view.editTextTextPersonName36?.error = null
                 cancel1 = true
             }
 
 
             if(storePhone!!.isEmpty()) {
-                editTextTextPersonName37?.error = "Phone Number is Empty"
+                view.editTextTextPersonName37?.error = "Phone Number is Empty"
                 cancel2 = false
             }else if(storePhone!!.take(2) != "08"){
-                editTextTextPersonName37?.error = "Phone Number must start with 08"
+                view.editTextTextPersonName37?.error = "Phone Number must start with 08"
                 cancel2 = false
             }else if(storePhone!!.length < 10){
-                editTextTextPersonName37?.error = "Phone Number must be more than 10"
+                view.editTextTextPersonName37?.error = "Phone Number must be more than 10"
                 cancel2 = false
             }else{
-                editTextTextPersonName37?.error = null
+                view.editTextTextPersonName37?.error = null
                 cancel2 = true
             }
 
             if(storeAddress!!.isEmpty()){
-                editTextTextPersonName38?.error = "Address is Empty"
+                view.editTextTextPersonName38?.error = "Address is Empty"
                 cancel3 = false
             }else if(storeAddress!!.length > 150){
-                editTextTextPersonName38.error = "Address must be more than 8"
+                view.editTextTextPersonName38.error = "Address must be more than 8"
                 cancel3 = false
             }else{
-                editTextTextPersonName38?.error = null
+                view.editTextTextPersonName38?.error = null
                 cancel3 = true
             }
 
@@ -204,13 +223,80 @@ class ProfileMainFragment : Fragment() {
                 saveStorePhone(storePhone!!)
                 saveStoreAddress(storeAddress!!)
 
-                bottomSheet!!.dismiss()
+                val bitmap = (view.imageView58?.getDrawable() as BitmapDrawable).bitmap
+                encodeTobase64(bitmap)?.let { saveStorePhoto(it) }
 
-//            val bitmap = (imageView20?.getDrawable() as BitmapDrawable).bitmap
-//            encodeTobase64(bitmap)?.let { savePhoto(it) }
+                bottomSheet!!.dismiss()
 //            startActivity(Intent(this, ProfilePersonalActivity::class.java))
             }
         }
+    }
+
+    private fun permissionPhoto(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) }
+                == PackageManager.PERMISSION_DENIED) {
+                //permission denied
+                val permiss = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                //show pop up to request runtime permission
+                requestPermissions(permiss, permissionCode)
+            }else {
+                //permission granted
+                launchGallery()
+            }
+        }else {
+            //system OS <= Marshmallow
+            launchGallery()
+        }
+
+    }
+
+    private fun launchGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, imgCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            permissionCode -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    launchGallery()
+                }else {
+                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        //val tampilan = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
+//        //var gambar: ImageView? = null
+//        //gambar = store_register_page.imageView58
+//        if (resultCode == Activity.RESULT_OK && requestCode == imgCode) {
+//            imageView58?.setImageURI(data?.data)
+//            //gambar?.setImageURI(data?.data)
+//        }
+//
+//    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        val tampilan = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
+        if (resultCode == Activity.RESULT_OK && requestCode == imgCode) {
+            tampilan.imageView58?.setImageURI(data?.data)
+        }
+    }
+
+    private fun encodeTobase64(image: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val b: ByteArray = baos.toByteArray()
+        val imageEncoded: String = Base64.encodeToString(b, Base64.DEFAULT)
+        Log.d("Image Log:", imageEncoded)
+        return imageEncoded
     }
 
     private fun saveStoreName(value: String) {
@@ -221,6 +307,9 @@ class ProfileMainFragment : Fragment() {
     }
     private fun saveStoreAddress(value: String) {
         Preferences.setKeyUserStoreAddress(context, value)
+    }
+    private fun saveStorePhoto(value: String) {
+        Preferences.setKeyUserStorePhoto(context, value)
     }
 
 
@@ -304,5 +393,9 @@ class ProfileMainFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+        //image pick code
+        private const val imgCode = 1000
+        //permission code
+        private const val permissionCode = 1001
     }
 }
