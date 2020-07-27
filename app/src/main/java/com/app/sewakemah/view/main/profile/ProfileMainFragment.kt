@@ -17,7 +17,6 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.app.sewakemah.R
 import com.app.sewakemah.data.Preferences
-import com.app.sewakemah.data.ProductEntity
 import com.app.sewakemah.view.WelcomeScreenActivity
 import com.app.sewakemah.view.main.profile.personalInfo.ProfileEditActivity
 import com.app.sewakemah.view.main.profile.personalInfo.ProfilePersonalActivity
@@ -31,7 +30,6 @@ import com.app.sewakemah.view.main.profile.profilestore.detail.StoreDetailActivi
 import com.app.sewakemah.view.main.profile.profilestore.stuff.StoreStuffActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_profile_edit.*
-import kotlinx.android.synthetic.main.bottomsheet_product_add.*
 import kotlinx.android.synthetic.main.bottomsheet_store_register.*
 import kotlinx.android.synthetic.main.bottomsheet_store_register.view.*
 import kotlinx.android.synthetic.main.fragment_main_profile.*
@@ -39,7 +37,9 @@ import kotlinx.android.synthetic.main.toolbar_detail_page.view.*
 
 class ProfileMainFragment : Fragment() {
     private var bottomSheet: BottomSheetDialog? = null
-    private var views: View? = null
+    private var storeName: String? = ""
+    private var storePhone: String? = ""
+    private var storeAddress: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,100 +127,89 @@ class ProfileMainFragment : Fragment() {
         }
 
         buttonCreateStore.setOnClickListener(){
-            //bottomSheet = BottomSheetDialog(context)
-            views = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
-            views?.let{
-                bottomSheetCustom(it)
-            }
-
+            bottomSheetCustom()
         }
+
+        bottomSheet = BottomSheetDialog(context!!)
 
     }
 
-    private fun bottomSheetCustom(tampil :View? = null) {
-        if (tampil != null) {
-            bottomSheet!!.setContentView(tampil)
-        }
+    private fun bottomSheetCustom() {
+        val view = layoutInflater.inflate(R.layout.bottomsheet_store_register, store_register_page)
+//        val product = intent.extras!!.get("data") as ProductEntity
+        bottomSheet!!.setContentView(view)
         bottomSheet!!.show()
 
-        tampil!!.imageView38.setImageResource(R.drawable.ic_close_black)
-        tampil!!.textView90.text = "Open My Own Store"
+        view.imageView38.setImageResource(R.drawable.ic_close_black)
+        view.textView90.text = "Open My Own Store"
 
         val layoutParams = LinearLayout.LayoutParams(48, 48)
-        tampil!!.imageView38.layoutParams = layoutParams
+        view.imageView38.layoutParams = layoutParams
 
-        tampil!!.imageView38.setOnClickListener {
+        view.imageView38.setOnClickListener {
             bottomSheet!!.dismiss()
         }
 
-        tampil!!.button40.setOnClickListener(){
-            var storeName: String? = ""
-            var storePhone: String? = ""
-            var storeAddress: String? = ""
+        view.button40.setOnClickListener {
+            storeName = editTextTextPersonName36?.text.toString()
+            storePhone = editTextTextPersonName37?.text.toString()
+            storeAddress = editTextTextPersonName38?.text.toString()
+            editTextTextPersonName36?.error = null
+            editTextTextPersonName37?.error = null
+            editTextTextPersonName38?.error = null
 
-            storeName = editTextTextPersonName36.text.toString()
-            storePhone = editTextTextPersonName37.text.toString()
-            storeAddress = editTextTextPersonName38.text.toString()
-            registerStore(storeName!!, storePhone!!, storeAddress!!)
+            var cancel1 = false
+            var cancel2 = false
+            var cancel3 = false
 
-        }
-    }
-
-    private fun registerStore(name: String?, phone: String?, address: String?){
-        editTextTextPersonName36.error = null
-        editTextTextPersonName37.error = null
-        editTextTextPersonName38.error = null
-
-        var cancel1 = false
-        var cancel2 = false
-        var cancel3 = false
-
-        if(name!!.isEmpty()){
-            editTextTextPersonName36.error = "Username is Empty"
-            cancel1 = false
-        }else if(name!!.length < 8){
-            editTextTextPersonName36.error = "Username must be more than 8"
-            cancel1 = false
-        }else{
-            editTextTextPersonName36.error = null
-            cancel1 = true
-        }
+            if(storeName!!.isEmpty()){
+                editTextTextPersonName36?.error = "Username is Empty"
+                cancel1 = false
+            }else if(storeName!!.length < 8){
+                editTextTextPersonName36?.error = "Username must be more than 8"
+                cancel1 = false
+            }else{
+                editTextTextPersonName36?.error = null
+                cancel1 = true
+            }
 
 
-        if(phone!!.isEmpty()) {
-            editTextTextPersonName37.error = "Phone Number is Empty"
-            cancel2 = false
-//        }else if(phone!!.toIntOrNull() == null){
-//            editTextTextPersonName37.error = "Phone Number is not a number"
-//            cancel3 = false
-        }else if(phone!!.take(2) != "08"){
-            editTextTextPersonName37.error = "Phone Number must start with 08"
-            cancel2 = false
-        }else if(phone!!.length < 10){
-            editTextTextPersonName37.error = "Phone Number must be more than 10"
-            cancel2 = false
-        }else{
-            editTextTextPersonName37.error = null
-            cancel2 = true
-        }
+            if(storePhone!!.isEmpty()) {
+                editTextTextPersonName37?.error = "Phone Number is Empty"
+                cancel2 = false
+            }else if(storePhone!!.take(2) != "08"){
+                editTextTextPersonName37?.error = "Phone Number must start with 08"
+                cancel2 = false
+            }else if(storePhone!!.length < 10){
+                editTextTextPersonName37?.error = "Phone Number must be more than 10"
+                cancel2 = false
+            }else{
+                editTextTextPersonName37?.error = null
+                cancel2 = true
+            }
 
-        if(address!!.isEmpty()){
-            editTextTextPersonName38.error = "Address is Empty"
-            cancel3 = false
-//        }else if(address!!.length < 8){
-//            editTextTextPersonName38.error = "Address must be more than 8"
-//            cancel3 = false
-        }else{
-            editTextTextPersonName38.error = null
-            cancel3 = true
-        }
+            if(storeAddress!!.isEmpty()){
+                editTextTextPersonName38?.error = "Address is Empty"
+                cancel3 = false
+            }else if(storeAddress!!.length > 150){
+                editTextTextPersonName38.error = "Address must be more than 8"
+                cancel3 = false
+            }else{
+                editTextTextPersonName38?.error = null
+                cancel3 = true
+            }
 
-        if(cancel1 && cancel2 && cancel3){
-            saveStoreName(name!!)
+            if(cancel1 && cancel2 && cancel3){
+                saveStoreName(storeName!!)
+                saveStorePhone(storePhone!!)
+                saveStoreAddress(storeAddress!!)
 
-            //val bitmap = (imageView20.getDrawable() as BitmapDrawable).bitmap
-            //encodeTobase64(bitmap)?.let { savePhoto(it) }
-            //startActivity(Intent(this, ProfilePersonalActivity::class.java))
+                bottomSheet!!.dismiss()
+
+//            val bitmap = (imageView20?.getDrawable() as BitmapDrawable).bitmap
+//            encodeTobase64(bitmap)?.let { savePhoto(it) }
+//            startActivity(Intent(this, ProfilePersonalActivity::class.java))
+            }
         }
     }
 
