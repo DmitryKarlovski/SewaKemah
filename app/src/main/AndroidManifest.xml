@@ -89,6 +89,15 @@
             android:name=".view.main.home.HomeProductDetailActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.main.cart.PaymentSummaryActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.main.cart.PaymentWaitingActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
     </application>
 
 </manifest>

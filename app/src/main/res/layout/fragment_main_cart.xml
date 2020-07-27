@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -59,9 +60,9 @@
                 tools:listitem="@layout/itemlist_cart_product" />
 
             <LinearLayout
+                android:id="@+id/layout_cart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/layout_cart"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -186,7 +187,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
